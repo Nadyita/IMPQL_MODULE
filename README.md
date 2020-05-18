@@ -24,17 +24,21 @@ Find the highest QL of an implant you can equip with given ability and treatment
 ## Examples
 
 `!impql 150`
-QL **150** <a href="#">Implant details</a> and <a href="#">Jobe Implant details</a>.
+
+> QL **150** <a href="#">Implant details</a> and <a href="#">Jobe Implant details</a>.
 
 `!impql 200 500`
-With **200** Ability and **500** Treatment, the highest possible <a href="#">Implant</a> is QL **98**.
+
+> With **200** Ability and **500** Treatment, the highest possible <a href="#">Implant</a> is QL **98**.
 
 `!impql 300 720`
-With **300** Ability and **720** Treatment, the highest possible <a href="#">Implant</a> is QL **148** and the hightest possible <a href="#">Jobe Implant</a> is QL **143**.
+
+> With **300** Ability and **720** Treatment, the highest possible <a href="#">Implant</a> is QL **148** and the hightest possible <a href="#">Jobe Implant</a> is QL **143**.
 
 ## Notice
 
 *Ability Clusters:*
+
 &nbsp;&nbsp;&nbsp;&nbsp;**42** (QL **147** - QL **150**) Shiny &#10132; **306** / **720**
 
 This means that the shiny cluster will give you **+42** in any ability from QL **147** to QL **150**.
