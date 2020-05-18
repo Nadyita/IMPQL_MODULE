@@ -1,0 +1,26 @@
+<header2>Usage:<end>
+
+Show stats for implants at a given QL:
+<tab><highlight><symbol>impql implant_ql<end>
+
+Find the highest QL of an implant you can equip with given ability and treatment:
+<tab><highlight><symbol>impql attribute_value treatment_value<end>
+
+<header2>Examples:<end>
+
+<highlight><symbol>impql 150<end>
+<tab><cyan>[Bot]: <end>QL <highlight>150<end> <a href="">Implant details</a> and <a href="">Jobe Implant details</a>.
+
+<highlight><symbol>impql 200 500<end>
+<tab><cyan>[Bot]: <end>With <highlight>200<end> Ability and <highlight>500<end> Treatment, the highest possible <a href="">Implant</a> is QL <highlight>98<end>.
+
+<highlight><symbol>impql 300 720<end>
+<tab><cyan>[Bot]: <end>With <highlight>300<end> Ability and <highlight>720<end> Treatment, the highest possible <a href="">Implant</a> is QL <highlight>148<end> and the hightest possible <a href="">Jobe Implant</a> is QL <highlight>143<end>.
+
+<header2>Notice:<end>
+
+<tab>Ability Clusters:
+<tab><tab><black>0<end><highlight>42<end> (QL <highlight>147<end> - QL <highlight>150<end>) Shiny <header>-><end> <highlight>306<end> / <highlight>720<end>
+
+This means that the shiny cluster will give you <highlight>+42<end> in any ability from QL <highlight>147<end> to QL <highlight>150<end>.
+To reach the next highest bonus (<highlight>+43<end> at QL <highlight>151<end>), you will need at least <highlight>306<end> in the implant's ability and <highlight>720<end> treatment.
