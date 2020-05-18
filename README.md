@@ -33,7 +33,7 @@ Find the highest QL of an implant you can equip with given ability and treatment
 
 `!impql 300 720`
 
-> With **300** Ability and **720** Treatment, the highest possible <a href="#">Implant</a> is QL **148** and the hightest possible <a href="#">Jobe Implant</a> is QL **143**.
+> With **300** Ability and **720** Treatment, the highest possible <a href="#">Implant</a> is QL **148** and the highest possible <a href="#">Jobe Implant</a> is QL **143**.
 
 ## Notice
 
