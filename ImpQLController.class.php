@@ -290,13 +290,18 @@ class ImpQLController {
 		$buildMultiplier = [4, 3, 2];
 		if ($type === self::JOBE) {
 			$buildMultiplier = [6.25, 4.75, 3.25];
+			if ($ql > 200) {
+				$buildMultiplier = [6.75, 5.25, 3.75];
+			}
+		} elseif ($ql > 200) {
+			$buildMultiplier = [5.25, 4.35, 2.55];
 		}
 		$blob .= "<header2>Requirements to build:<end>\n".
-			$indent.$this->text->alignNumber(round($buildMultiplier[0] * $ql), 4, 'highlight').
+			$indent.$this->text->alignNumber(floor($buildMultiplier[0] * $ql), 4, 'highlight').
 			" NP for Shiny\n".
-			$indent.$this->text->alignNumber(round($buildMultiplier[1] * $ql), 4, 'highlight').
+			$indent.$this->text->alignNumber(floor($buildMultiplier[1] * $ql), 4, 'highlight').
 			" NP for Bright\n".
-			$indent.$this->text->alignNumber(round($buildMultiplier[2] * $ql), 4, 'highlight').
+			$indent.$this->text->alignNumber(floor($buildMultiplier[2] * $ql), 4, 'highlight').
 			" NP for Faded\n\n";
 
 		$blob .= "<header2>Requirements to clean:<end>\n";
@@ -306,7 +311,7 @@ class ImpQLController {
 			$blob .= $indent . "Refined Implants cannot be cleaned.\n\n";
 		} else {
 			$blob .= $indent.$this->text->alignNumber($ql, 4, 'highlight') . " NanoProgramming\n".
-				$indent.$this->text->alignNumber(round(4.75*$ql), 4, 'highlight') . " Break&Entry\n\n";
+				$indent.$this->text->alignNumber(floor(4.75*$ql), 4, 'highlight') . " Break&Entry\n\n";
 		}
 
 		$minQL = 1;
@@ -314,9 +319,9 @@ class ImpQLController {
 			$minQL = 201;
 		}
 		$blob .= "<header2>Minimum Cluster QL:<end>\n".
-			$indent.$this->text->alignNumber(max($minQL, round(0.86*$ql)), 3, 'highlight') . " Shiny\n".
-			$indent.$this->text->alignNumber(max($minQL, round(0.84*$ql)), 3, 'highlight') . " Bright\n".
-			$indent.$this->text->alignNumber(max($minQL, round(0.82*$ql)), 3, 'highlight') . " Faded\n\n";
+			$indent.$this->text->alignNumber(max($minQL, floor(0.86*$ql)), 3, 'highlight') . " Shiny\n".
+			$indent.$this->text->alignNumber(max($minQL, floor(0.84*$ql)), 3, 'highlight') . " Bright\n".
+			$indent.$this->text->alignNumber(max($minQL, floor(0.82*$ql)), 3, 'highlight') . " Faded\n\n";
 	
 		$impName = "Implant";
 		if ($type === self::JOBE) {
