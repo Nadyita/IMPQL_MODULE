@@ -1,10 +1,9 @@
 <?php
 
-namespace Budabot\User\Modules;
+namespace Budabot\User\Modules\IMPQL_MODULE;
 
 /**
- * Authors:
- *	- Nadyita (RK5)
+ * @author Nadyita (RK5) <nadyita@hodorraid.org>
  *
  * @Instance
  *
@@ -83,8 +82,9 @@ class ImpQLController {
 	 * @return int|null The interpolated bonus at the given QL or null if out of range
 	 */
 	public function calcStatFromQL(array $itemSpecs, int $searchedQL): ?int {
+		$lastSpec = null;
 		foreach ($itemSpecs as $itemQL => $itemBonus) {
-			if (!isset($lastSpec)) {
+			if ($lastSpec === null) {
 				$lastSpec = [$itemQL, $itemBonus];
 			} else {
 				if ($lastSpec[0] <= $searchedQL && $itemQL >= $searchedQL) {
