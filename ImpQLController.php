@@ -213,6 +213,11 @@ class ImpQLController {
 	 */
 	public function impQlCommand($message, $channel, $sender, $sendto, $args) {
 		$ql = (int)$args[1];
+		if ($ql < 1 || $ql > 300) {
+			$msg = "Implants only exist is QLs between 1 and 300.";
+			$sendto->reply($msg);
+			return;
+		}
 
 		$regularBlob = $this->renderBlob(self::REGULAR, $ql);
 
