@@ -70,7 +70,7 @@ class ImpQLController {
 			  1 => [  16,   11, 3],
 			200 => [ 414, 1005, 4],
 			201 => [ 476, 1001, 5],
-			300 => [1095, 2051, 6],
+			300 => [1231, 2051, 6],
 		],
 	];
 
@@ -330,7 +330,11 @@ class ImpQLController {
 	
 		$impName = "Implant";
 		if ($type === self::JOBE) {
-			$impName = "Jobe Implant";
+			if ($ql >= 201) {
+				$impName = "Implant with shiny Jobe cluster";
+			} else {
+				$impName = "Jobe Implant";
+			}
 		}
 		return $this->text->makeBlob($impName, $blob, "QL $ql $impName Details");
 	}
