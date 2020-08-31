@@ -1,6 +1,12 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Budabot\User\Modules\IMPQL_MODULE;
+namespace Nadybot\User\Modules\IMPQL_MODULE;
+
+use Nadybot\Core\{
+	CommandReply,
+	Nadybot,
+	Text,
+};
 
 /**
  * @author Nadyita (RK5) <nadyita@hodorraid.org>
@@ -20,34 +26,28 @@ class ImpQLController {
 	/**
 	 * Name of the module.
 	 * Set automatically by module loader.
-	 * @var string $moduleName
 	 */
-	public $moduleName;
+	public string $moduleName;
 
-	/**
-	 * @var \Budabot\Core\Budabot $chatBot
-	 * @Inject
-	 */
-	public $chatBot;
+	/** @Inject */
+	public Nadybot $chatBot;
 
-	/**
-	 * @var \Budabot\Core\Text $text
-	 * @Inject
-	 */
-	public $text;
+	/** @Inject */
+	public Text $text;
 
-	const FADED = 0;
-	const BRIGHT = 1;
-	const SHINY = 2;
+	public const FADED = 0;
+	public const BRIGHT = 1;
+	public const SHINY = 2;
 
-	const ATTRIBUTE = 0;
-	const TREATMENT = 1;
-	const TITLE_LEVEL = 2;
+	public const ATTRIBUTE = 0;
+	public const TREATMENT = 1;
+	public const TITLE_LEVEL = 2;
 
-	const REGULAR = 'reqRegular';
-	const JOBE = 'reqJobe';
+	public const REGULAR = 'reqRegular';
+	public const JOBE = 'reqJobe';
 
-	protected $implantBreakpoints = [
+	/** @var array<string,array<int,int[]>> */
+	protected array $implantBreakpoints = [
 		'skills' => [
 			  1 => [ 2,  3,   6],
 			200 => [42, 63, 105],
@@ -89,7 +89,7 @@ class ImpQLController {
 			} else {
 				if ($lastSpec[0] <= $searchedQL && $itemQL >= $searchedQL) {
 					$multi = (1 / ($itemQL - $lastSpec[0]));
-					return round($lastSpec[1] + ( ($itemBonus-$lastSpec[1]) * ($multi *($searchedQL-($lastSpec[0]-1)-1))));
+					return (int)round($lastSpec[1] + ( ($itemBonus-$lastSpec[1]) * ($multi *($searchedQL-($lastSpec[0]-1)-1))));
 				} else {
 					$lastSpec = [$itemQL, $itemBonus];
 				}
@@ -125,7 +125,7 @@ class ImpQLController {
 	 * @param string $type     The name of the breakpoint ("abilities", "reqRegular", ...)
 	 * @param int    $position The position in the list (usually 0, 1 or 2)
 	 *
-	 * @return array An associative array in the form [QL => bonus/requirement]
+	 * @return array<int,int> An associative array in the form [QL => bonus/requirement]
 	 */
 	protected function getBreakpoints(string $type, int $position): array {
 		return array_map(
@@ -151,7 +151,7 @@ class ImpQLController {
 		$bestAttribQL = $this->findBestQLForBonus($attributeLevel, $attributeBreakpoints);
 		$bestTreatmentQL = $this->findBestQLForBonus($treatmentLevel, $treatmentBreakpoints);
 
-		return min($bestAttribQL, $bestTreatmentQL);
+		return (int)min($bestAttribQL, $bestTreatmentQL);
 	}
 
 	/**
@@ -182,7 +182,7 @@ class ImpQLController {
 	 * @HandlesCommand("impql")
 	 * @Matches("/^impql\s+(\d+)\s+(\d+)$/i")
 	 */
-	public function impQlDetermineCommand($message, $channel, $sender, $sendto, $args) {
+	public function impQlDetermineCommand(string $message, string $channel, string $sender, CommandReply $sendto, array $args): void {
 		$attrib = (int)$args[1];
 		$treatment = (int)$args[2];
 		$regularQL = $this->findHighestRegularImplantQL($attrib, $treatment);
@@ -211,7 +211,7 @@ class ImpQLController {
 	 * @HandlesCommand("impql")
 	 * @Matches("/^impql\s+(\d+)$/i")
 	 */
-	public function impQlCommand($message, $channel, $sender, $sendto, $args) {
+	public function impQlCommand(string $message, string $channel, string $sender, CommandReply $sendto, array $args): void {
 		$ql = (int)$args[1];
 		if ($ql < 1 || $ql > 300) {
 			$msg = "Implants only exist is QLs between 1 and 300.";
@@ -236,8 +236,8 @@ class ImpQLController {
 	 * Roughly looks like this:
 	 * 42 (QL 147 - QL 150) Shiny -> 306 / 720
 	 *
-	 * @param \Budabot\Modules\ImplantBonusStats $stats The stats to render
-	 * @param string                             $type  "Shiny", "Bright" or "Faded"
+	 * @param ImplantBonusStats $stats The stats to render
+	 * @param string            $type  "Shiny", "Bright" or "Faded"
 	 *
 	 * @return string the rendered line including newline
 	 */
@@ -302,11 +302,11 @@ class ImpQLController {
 			$buildMultiplier = [5.25, 4.35, 2.55];
 		}
 		$blob .= "<header2>Requirements to build:<end>\n".
-			$indent.$this->text->alignNumber(floor($buildMultiplier[0] * $ql), 4, 'highlight').
+			$indent.$this->text->alignNumber((int)floor($buildMultiplier[0] * $ql), 4, 'highlight').
 			" NP for Shiny\n".
-			$indent.$this->text->alignNumber(floor($buildMultiplier[1] * $ql), 4, 'highlight').
+			$indent.$this->text->alignNumber((int)floor($buildMultiplier[1] * $ql), 4, 'highlight').
 			" NP for Bright\n".
-			$indent.$this->text->alignNumber(floor($buildMultiplier[2] * $ql), 4, 'highlight').
+			$indent.$this->text->alignNumber((int)floor($buildMultiplier[2] * $ql), 4, 'highlight').
 			" NP for Faded\n\n";
 
 		$blob .= "<header2>Requirements to clean:<end>\n";
@@ -316,7 +316,7 @@ class ImpQLController {
 			$blob .= $indent . "Refined Implants cannot be cleaned.\n\n";
 		} else {
 			$blob .= $indent.$this->text->alignNumber($ql, 4, 'highlight') . " NanoProgramming\n".
-				$indent.$this->text->alignNumber(floor(4.75*$ql), 4, 'highlight') . " Break&Entry\n\n";
+				$indent.$this->text->alignNumber((int)floor(4.75*$ql), 4, 'highlight') . " Break&Entry\n\n";
 		}
 
 		$minQL = 1;
@@ -331,7 +331,7 @@ class ImpQLController {
 		$impName = "Implant";
 		if ($type === self::JOBE) {
 			if ($ql >= 201) {
-				$impName = "Implant with shiny Jobe cluster";
+				$impName = "Implant with a shiny Jobe cluster and all other clusters filled";
 			} else {
 				$impName = "Jobe Implant";
 			}
@@ -377,7 +377,6 @@ class ImpQLController {
 	 * @param string $type Type of bonus ("skills" or "abilities")
 	 * @param int    $slot 0 => faded, 1 => bright, 2 => shiny
 	 * @param int    $ql   The QL of the implant
-	 * @return \Budabot\User\Modules\ImplantBonusStats
 	 */
 	protected function getBonusStatsForType(string $type, int $slot, int $ql): ImplantBonusStats {
 		$breakpoints = $this->getBreakpoints($type, $slot);
@@ -393,8 +392,6 @@ class ImpQLController {
 	 *
 	 * @param string $type self::JOBE or self::REGULAR
 	 * @param int    $ql   The QL of the implant you want to build
-	 *
-	 * @return \Budabot\User\Modules\ImplantSpecs
 	 */
 	public function getImplantQLSpecs(string $type, int $ql): ImplantSpecs {
 		$specs = new ImplantSpecs();
@@ -423,62 +420,5 @@ class ImpQLController {
 		$specs->abilities = $abilities;
 
 		return $specs;
-	}
-}
-
-class ImplantSpecs {
-	/** @var int */
-	public $ql;
-
-	/** @var \Budabot\User\Modules\ImplantRequirements */
-	public $requirements;
-
-	/** @var \Budabot\User\Modules\ImplantBonusTypes */
-	public $skills;
-
-	/** @var \Budabot\User\Modules\ImplantBonusTypes */
-	public $abilities;
-}
-
-class ImplantRequirements {
-	/** @var int */
-	public $treatment;
-
-	/** @var int */
-	public $abilities;
-
-	/** @var int */
-	public $titleLevel;
-}
-
-class ImplantBonusTypes {
-	/** @var \Budabot\User\Modules\ImplantBonusStats */
-	public $faded;
-
-	/** @var \Budabot\User\Modules\ImplantBonusStats */
-	public $bright;
-
-	/** @var \Budabot\User\Modules\ImplantBonusStats */
-	public $shiny;
-}
-
-class ImplantBonusStats {
-	/** @var string */
-	public $slot = 'Faded';
-
-	/** @var int */
-	public $buff;
-
-	/** @var int[] */
-	public $range;
-
-	public function __construct(int $slot) {
-		if ($slot === ImpQLController::FADED) {
-			$this->slot = 'Faded';
-		} elseif ($slot === ImpQLController::BRIGHT) {
-			$this->slot = 'Bright';
-		} else {
-			$this->slot = 'Shiny';
-		}
 	}
 }
