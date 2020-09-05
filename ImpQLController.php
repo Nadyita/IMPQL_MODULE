@@ -324,9 +324,9 @@ class ImpQLController {
 			$minQL = 201;
 		}
 		$blob .= "<header2>Minimum Cluster QL:<end>\n".
-			$indent.$this->text->alignNumber(max($minQL, floor(0.86*$ql)), 3, 'highlight') . " Shiny\n".
-			$indent.$this->text->alignNumber(max($minQL, floor(0.84*$ql)), 3, 'highlight') . " Bright\n".
-			$indent.$this->text->alignNumber(max($minQL, floor(0.82*$ql)), 3, 'highlight') . " Faded\n\n";
+			$indent.$this->text->alignNumber((int)max($minQL, floor(0.86*$ql)), 3, 'highlight') . " Shiny\n".
+			$indent.$this->text->alignNumber((int)max($minQL, floor(0.84*$ql)), 3, 'highlight') . " Bright\n".
+			$indent.$this->text->alignNumber((int)max($minQL, floor(0.82*$ql)), 3, 'highlight') . " Faded\n\n";
 	
 		$impName = "Implant";
 		if ($type === self::JOBE) {
